@@ -86,7 +86,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     /**
      * Check status of internet connection
      */
-    private fun isNetworkConnected(): Boolean {
+    fun isNetworkConnected(): Boolean {
         return NetworkUtils.isNetworkAvailable(this)
     }
 }
