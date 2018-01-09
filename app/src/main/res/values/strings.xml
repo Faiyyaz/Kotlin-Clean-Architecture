@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Kotlin_clean_architecture</string>
+    <string name="no_internet_available">Please check your internet connection</string>
+</resources>
