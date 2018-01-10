@@ -12,6 +12,7 @@ import com.dexter.kotlinbaseapp.database.db.CineWorldDb
 import com.dexter.kotlinbaseapp.utils.Constants
 import com.dexter.kotlinbaseapp.utils.DialogUtils
 import kotlinx.android.synthetic.main.activity_search.*
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -21,9 +22,9 @@ import javax.inject.Inject
 class SearchActivity : BaseActivity(), SearchView {
 
     @Inject
-    internal var searchApiCall: SearchApiCall? = null
+    lateinit var searchApiCall: SearchApiCall
     @Inject
-    internal var cineWorldDb: CineWorldDb? = null
+    lateinit var cineWorldDb: CineWorldDb
 
     private var totalSearchResult: String? = null
     private var searchPresenter: SearchPresenter? = null
@@ -63,11 +64,11 @@ class SearchActivity : BaseActivity(), SearchView {
     }
 
     override fun onSuccess(searchResponse: SearchResponse) {
-
+        Timber.d(searchResponse.getSearch()!!.size.toString())
     }
 
     override fun onCacheSuccess(searchBeanList: List<SearchBean>) {
-
+        Timber.d(searchBeanList.size.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

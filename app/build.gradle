@@ -19,7 +19,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"http://www.omdbapi.com\""
-        buildConfigField "String", "API_KEY", "\"3940588f\""
+        buildConfigField "String", "API_KEY", "\"YOUR API KEY HERE\""
     }
     buildTypes {
         release {

@@ -11,7 +11,6 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -41,12 +40,13 @@ class SearchApiCall(private val omdbApiInterface: OMDBApiInterface) {
         disposable = doApiRequest(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ searchResponse -> onNext(cineWorldDb, searchResponse, callback) }, { throwable -> callback.onError(NetworkUtils.getStringError(throwable)) }, Action { this.onComplete() })
+                /*.subscribe({ searchResponse -> onNext(cineWorldDb, searchResponse, callback) }, { throwable -> callback.onError(NetworkUtils.getStringError(throwable)) }, Action { this.onComplete() })*/
+                .subscribe({ onNext(cineWorldDb, searchResponse = it, callback = callback) }, { callback.onError(NetworkUtils.getStringError(Throwable())) }, { this.onComplete() })
         compositeDisposable.add(disposable!!)
     }
 
     private fun onNext(cineWorldDb: CineWorldDb, searchResponse: SearchResponse, callback: GetSearchBeanCallback) {
-        if (searchResponse.getResponse().equalsIgnoreCase("true")) {
+        if (searchResponse.getResponse().equals("true", true)) {
             InsertTask(cineWorldDb, searchResponse).execute()
             callback.onNext(searchResponse)
         } else {
@@ -58,7 +58,8 @@ class SearchApiCall(private val omdbApiInterface: OMDBApiInterface) {
         disposable = searchResponseFlowable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ searchBeans -> onCacheNext(searchBeans, callback, cineWorldDb, map) }, { throwable -> callback.onError(NetworkUtils.getStringError(throwable)) }, Action { this.onComplete() })
+                /* .subscribe({ searchBeans -> onCacheNext(searchBeans, callback, cineWorldDb, map) }, { throwable -> callback.onError(NetworkUtils.getStringError(throwable)) }, Action { this.onComplete() })*/
+                .subscribe({ onCacheNext(searchBeanList = it, callback = callback, cineWorldDb = cineWorldDb, map = map) }, { callback.onError(NetworkUtils.getStringError(Throwable())) }, { this.onComplete() })
         compositeDisposable.add(disposable!!)
     }
 

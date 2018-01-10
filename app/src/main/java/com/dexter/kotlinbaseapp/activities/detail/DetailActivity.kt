@@ -19,10 +19,10 @@ import javax.inject.Inject
 class DetailActivity : BaseActivity(), DetailView {
 
     @Inject
-    internal var detailApiCall: DetailApiCall? = null
+    lateinit var detailApiCall: DetailApiCall
 
     @Inject
-    internal var cineWorldDb: CineWorldDb? = null
+    lateinit var cineWorldDb: CineWorldDb
 
     private var imdbID: String? = null
     private var dialog: AlertDialog? = null
@@ -44,7 +44,7 @@ class DetailActivity : BaseActivity(), DetailView {
 
             val supportActionBar = supportActionBar
             if (supportActionBar != null) {
-                supportActionBar!!.setTitle(title)
+                supportActionBar!!.title = title
                 supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             }
         }

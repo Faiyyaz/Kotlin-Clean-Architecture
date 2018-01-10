@@ -1,6 +1,9 @@
 package com.dexter.kotlinbaseapp.dagger.module
 
 import com.dexter.kotlinbaseapp.BuildConfig
+import com.dexter.kotlinbaseapp.activities.detail.DetailApiCall
+import com.dexter.kotlinbaseapp.activities.search.SearchApiCall
+import com.dexter.kotlinbaseapp.api.service.OMDBApiInterface
 import com.dexter.kotlinbaseapp.dagger.scopes.PerApplication
 import dagger.Module
 import dagger.Provides
@@ -40,4 +43,22 @@ class NetworkModule {
     /**
      * add api service & api methods here
      */
+
+    @Provides
+    @PerApplication
+    fun providesOMDBApiInterface(retrofit: Retrofit) : OMDBApiInterface{
+        return retrofit.create(OMDBApiInterface::class.java)
+    }
+
+    @Provides
+    @PerApplication
+    fun providesSearchApiCall(omdbApiInterface: OMDBApiInterface) : SearchApiCall{
+        return SearchApiCall(omdbApiInterface)
+    }
+
+    @Provides
+    @PerApplication
+    fun providesDetailApiCall(omdbApiInterface: OMDBApiInterface) : DetailApiCall{
+        return DetailApiCall(omdbApiInterface)
+    }
 }
